@@ -1,3 +1,6 @@
+// https://atcoder.jp/contests/abc366/tasks/abc366_c
+// 最初セットで管理していたが、それでは2個→1個に減っただけの時も要素を削除することになると気が付き、vectorで管理するようにした。
+
 #include <iostream>   
 #include <vector>    
 #include <string>    
