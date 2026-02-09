@@ -1,3 +1,10 @@
+// https://atcoder.jp/contests/abc382/tasks/abc382_c
+// 寿司をとるのは、i- 1番目までの任意の人より小さい美食度の人である。
+// そのため、寿司をとる人の番号をcheckに記録していった。
+// そして、すべての寿司にたいして、二分探索で、だれが食べるかを探索していった。
+
+// 最初、条件が合えばmidをそのまま出力していたが、条件が合うものをいったんans_indexに保持して、より良い条件のものを探すように変更したら、ACできた。
+
 #include <iostream>   
 #include <vector>    
 #include <string>    
