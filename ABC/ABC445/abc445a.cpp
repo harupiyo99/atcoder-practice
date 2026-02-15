@@ -1,4 +1,5 @@
 // https://atcoder.jp/contests/abc445/tasks/abc445_a
+// S.front(),S.back()によって最初と最後にアクセスできることを知り、こちらに変えた。
 
 #include <iostream>   
 #include <vector>    
@@ -24,7 +25,7 @@ int main()
     string S;
     cin >> S;
 
-    if (S[0] == S[S.size() - 1]) cout << "Yes\n";
+    if (S.front() == S.back()) cout << "Yes\n";
     else cout << "No\n";
     return 0;
 }
