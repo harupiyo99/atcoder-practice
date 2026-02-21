@@ -1,3 +1,5 @@
+// https://atcoder.jp/contests/abc446/tasks/abc446_b
+
 #include <iostream>   
 #include <vector>    
 #include <string>    
