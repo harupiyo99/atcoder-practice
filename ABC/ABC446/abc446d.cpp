@@ -1,46 +1,31 @@
-// https://atcoder.jp/contests/abc446/tasks/abc446_d
-
-// https://atcoder.jp/contests/tessoku-book/submissions/me
-
-#include <iostream>   
-#include <vector>    
-#include <string>    
+#include <iostream>
+#include <vector>
 #include <algorithm>
-#include <utility> 
-#include <map>       
-#include<queue>
-#include<cmath>
-#include<iomanip>
+#include <map>
 
 using namespace std;
-using ll = long long int;
-using vi = vector<int>;
-using vll = vector<ll>;
-using vvi = vector<vector<int>>; 
-using vvll = vector<vector<ll>>;
-using msi = map<string, int>;
+using ll = long long;
 
-int main()
-{
+int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
     ll N;
     cin >> N;
-    vll A(N);
-    for (ll i = 0;i < N;i++) cin >> A[i];
 
+    map<ll, ll> dp;
     ll len = 0;
-    vll dp(N),L(N);
-    for (ll i = 0;i < N;i++) {
-        auto it = lower_bound(L.begin(),L.begin() + len,A[i]);
-        ll pos = distance(L.begin(), it);
-        dp[i] = pos + 1;
 
-        L[dp[i] - 1] = A[i];
-        if (dp[i] > len) len++;
+    for (ll i = 0; i < N; i++) {
+        ll A;
+        cin >> A;
+
+        dp[A] = dp[A - 1] + 1;
+        
+        len = max(len, dp[A]);
     }
 
     cout << len << "\n";
+
     return 0;
 }
