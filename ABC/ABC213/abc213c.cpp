@@ -43,13 +43,23 @@ int main()
     sort(Asort.begin(),Asort.end());
     sort(Bsort.begin(),Bsort.end());
 
-    Asort.erase(unique(Asort.begin(), Asort.end()), Asort.end());
-    Bsort.erase(unique(Bsort.begin(), Bsort.end()), Bsort.end());
+    map<ll, ll> C,D;
+    ll numA = 1, numB = 1;
+    C[Asort[0]] = numA;
+    D[Bsort[0]] = numB;
+    for (ll i = 1;i < N;i++) {
+        if (Asort[i] != Asort[i - 1]) {
+            numA++;
+            C[Asort[i]] = numA;
+        }
+        if (Bsort[i] != Bsort[i - 1]) {
+            numB++;
+            D[Bsort[i]] = numB;
+        }  
+    }
 
     for (int i = 0; i < N; i++) {
-        ll row = lower_bound(Asort.begin(), Asort.end(), A[i]) - Asort.begin() + 1;
-        ll col = lower_bound(Bsort.begin(), Bsort.end(), B[i]) - Bsort.begin() + 1;
-        cout << row << " " << col << "\n";
+        cout << C[A[i]] << " " << D[B[i]] << "\n";
     }
     return 0;
 }
