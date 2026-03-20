@@ -18,22 +18,22 @@ int main()
     ll N;
     cin >> N;
     vll A(N);
-    map<ll, ll> S, T;
+    for (ll i = 0;i < N;i++) cin >> A[i];
+
+    map<ll, ll> memo3, memo7;
     ll ans = 0;
     for (ll i = 0;i < N;i++) {
-        cin >> A[i];
-        if (A[i] % 3 == 0) S[A[i] / 3]++;
-        if (A[i] % 7 == 0) T[A[i] / 7]++;
-        if (A[i] % 5 == 0) ans += S[A[i] / 5] * T[A[i] / 5];
+        if (A[i] % 3 == 0) memo3[A[i] / 3]++;
+        if (A[i] % 7 == 0) memo7[A[i] / 7]++;
+        if (A[i] % 5 == 0) ans += memo3[A[i] / 5] * memo7[A[i] / 5];
+    }
+    map<ll, ll> nmemo3, nmemo7;
+    for (ll i = N-1;i >= 0;i--) {
+        if (A[i] % 3 == 0) nmemo3[A[i] / 3]++;
+        if (A[i] % 7 == 0) nmemo7[A[i] / 7]++;
+        if (A[i] % 5 == 0) ans += nmemo3[A[i] / 5] * nmemo7[A[i] / 5];
     }
 
-    map<ll, ll> Sr, Tr;
-    for (ll i = N-1;i >= 0;i--) {
-        if (A[i] % 3 == 0) Sr[A[i] / 3]++;
-        if (A[i] % 7 == 0) Tr[A[i] / 7]++;
-        if (A[i] % 5 == 0) ans += Sr[A[i] /5] * Tr[A[i] / 5];
-    }
-    
     cout << ans << "\n";
     return 0;
 }
