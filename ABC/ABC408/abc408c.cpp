@@ -1,4 +1,4 @@
-// https://atcoder.jp/contests/abc416/tasks/abc416_c
+// https://atcoder.jp/contests/abc408/tasks/abc408_c
 
 #include <iostream>   
 #include <vector>    
@@ -29,29 +29,28 @@ using mii = map<int, int>;
 using mll = map<ll, ll>;
 using msi = map<string, int>;
 
-void strmake(int k, string curstr, vs& allstr, const vs& S, const int N) {
-    if (k > 0) rep(i, N) strmake(k-1, curstr + S[i], allstr, S, N);
-    else {
-        allstr.push_back(curstr);
-        return;
-    } 
-}
-
 int main()
 {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
     
-    int N, K, X;
-    cin >> N >> K >> X;
+    int N, M;
+    cin >> N >> M;
+    vi L(M), R(M);
+    rep(i, M) cin >> L[i] >> R[i];
 
-    vs S(N);
-    rep(i, N) cin >> S[i];
+    vi edge(N+1, 0);
+    rep(i, M) {
+        edge[L[i]-1]++;
+        edge[R[i]]--;
+    }
+    vi str(N, 0);
+    str[0] = edge[0];
+    for (int i = 1;i < N;i++) str[i] = str[i-1] + edge[i];
 
-    vs allstr;
-    strmake(K, "", allstr, S, N);
+    int ans = 100000000;
+    for (int i = 0;i < N;i++) ans = min(ans, str[i]);
 
-    sort(allstr.begin(), allstr.end());
-    cout << allstr[X-1] << "\n";
+    cout << ans << "\n";
     return 0;
 }
