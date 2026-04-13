@@ -1,10 +1,11 @@
+// https://atcoder.jp/contests/abc388/tasks/abc388_d
+
 #include <iostream>   
 #include <vector>    
 #include <string>    
 #include <algorithm>
 #include <utility> 
 #include <map>
-#include <unordered_map>
 #include <stack>
 #include <queue>
 #include <set>
@@ -34,22 +35,28 @@ using mll = map<ll, ll>;
 using msi = map<string, int>;
 
 ll N;
-vll K;
-vvll A;
-vector<unordered_map<ll, ll>> memo;
+vll A;
 
 void solve() {
-    double ans = 0;
+    vll dif(N + 1, 0), stone(N + 1, 0), B(N, 0);
+    
+    if (A[0] != 0) {
+        dif[1]++;
+        if (N - 1 < A[0]) B[0] = A[0] - (N - 1);
+        else dif[A[0] + 1]--;
+    }
+    for (ll i = 1;i < N;i++) {
+        stone[i] = stone[i - 1] + dif[i];
 
-    for (ll i = 0;i < N - 1;i++) for (ll j = i + 1;j < N;j++) {
-        ll count = 0;
-        for (ll k : A[i]) count += memo[j][k];
-
-        ans = max(ans, (double)(count) / (double)(K[i] * K[j]));
+        if (stone[i] + A[i] != 0) {
+            dif[i + 1]++;
+            if (N - 1 - i < A[i] + stone[i]) B[i] = A[i] + stone[i] + i - (N - 1);
+            else dif[i + A[i] + stone[i] + 1]--;
+        }
     }
 
-    cout << fixed;
-    cout << setprecision(10) << ans << "\n";
+    for (ll i = 0;i < N;i++) cout << B[i] << " ";
+
     return;
 }
 
@@ -60,19 +67,7 @@ int main()
 
     cin >> N;
     A.resize(N);
-    memo.resize(N);
-    K.resize(N);
-    for (ll i = 0;i < N;i++) {
-        cin >> K[i];
-
-        for (ll j = 0;j < K[i];j++) {
-            ll a;
-            cin >> a;
-            A[i].push_back(a);
-
-            memo[i][a]++;
-        }
-    }
+    for (ll i = 0;i < N;i++) cin >> A[i];
     
     solve();
     return 0;
