@@ -1,11 +1,10 @@
-// https://atcoder.jp/contests/abc454/tasks/abc454_d
-
 #include <iostream>   
 #include <vector>    
 #include <string>    
 #include <algorithm>
 #include <utility> 
 #include <map>
+#include <unordered_map>
 #include <stack>
 #include <queue>
 #include <set>
@@ -36,31 +35,35 @@ using msi = map<string, int>;
 
 int T;
 
+string process(string x) {
+    int N = x.size();
+    string ans;
+
+    for (int i = 0;i < N;i++) {
+        if (x[i] == ')') {
+            int len = ans.size();
+            if (len >= 3 && ans[len - 1] == 'x' && ans[len - 2] == 'x' && ans[len - 3] == '(') {
+                for (int j = 0;j < 3;j++) ans.pop_back();
+                for (int j = 0;j < 2;j++) ans.push_back('x');
+            }
+            else ans.push_back(')');
+        }
+        else {
+            ans.push_back(x[i]);
+        }
+    }
+
+    return ans;
+}
+
 void solve() {
     string A, B;
     cin >> A >> B;
-    int lenA = A.size(), lenB = B.size();
 
-    string memoA, memoB;
-    for (int i = 0;i < lenA;i++) {
-        memoA.push_back(A[i]);
-
-        while (memoA.size() >= 4 && memoA[memoA.size() - 4] == '(' && memoA[memoA.size() - 3] == 'x' && memoA[memoA.size() - 2] == 'x' && memoA[memoA.size() - 1] == ')') {
-            rep(j, 4) memoA.pop_back();
-            memoA += "xx";
-        }
-    }
-    for (int i = 0;i < lenB;i++) {
-        memoB.push_back(B[i]);
-
-        while (memoB.size() >= 4 && memoB[memoB.size() - 4] == '(' && memoB[memoB.size() - 3] == 'x' && memoB[memoB.size() - 2] == 'x' && memoB[memoB.size() - 1] == ')') {
-            rep(j, 4) memoB.pop_back();
-            memoB += "xx";
-        }
-    }
-
-    if (memoA == memoB) cout << "Yes" << "\n";
+    if (process(A) == process(B)) cout << "Yes" << "\n";
     else cout << "No" << "\n";
+
+    return;
 }
 
 int main()
