@@ -43,53 +43,31 @@ vvi memo;
 vvi cnt;
 
 void solve() {
-    ll cur = 0;
     cnt.resize(H, vi(W, 0));
 
     while (!masu.empty()) {
-        ll x = masu.front().first.first;
-        ll y = masu.front().first.second;
+        int x = masu.front().first.first;
+        int y = masu.front().first.second;
         ll c = masu.front().second;
         masu.pop();
 
         if (S[x][y] == '.' || S[x][y] == '#') S[x][y] = '#';
         else continue;
 
-        if (x != 0 && S[x - 1][y] != '#') {
-            memo[x - 1][y]++;
-            if (memo[x - 1][y] == 1) {
-                masu.push({{x - 1, y}, c + 1});
-                cnt[x - 1][y] = c + 1;
+        vi dx = {x + 1, x - 1, x, x}, dy = {y, y, y + 1, y - 1};
+        
+        rep(i, 4) {
+            if (dx[i] < 0 || dx[i] >= H || dy[i] < 0 || dy[i] >= W) continue;
+
+            if (S[dx[i]][dy[i]] != '#') {
+                memo[dx[i]][dy[i]]++;
+                if (memo[dx[i]][dy[i]] == 1) {
+                    masu.push({{dx[i], dy[i]}, c + 1});
+                    cnt[dx[i]][dy[i]] = c + 1;
+                }
+                else if (cnt[dx[i]][dy[i]] == c && memo[dx[i]][dy[i]] == 2) memo[dx[i]][dy[i]] = 1;
+                else S[dx[i]][dy[i]] = 'w';
             }
-            else if (cnt[x - 1][y] == c && memo[x - 1][y] == 2) memo[x - 1][y] = 1;
-            else S[x - 1][y] = 'w';
-        }
-        if (y != 0 && S[x][y - 1] != '#') {
-            memo[x][y - 1]++;
-            if (memo[x][y - 1] == 1) {
-                masu.push({{x, y - 1}, c + 1});
-                cnt[x][y - 1] = c + 1;
-            }
-            else if (cnt[x][y - 1] == c && memo[x][y - 1] == 2) memo[x][y - 1] = 1;
-            else S[x][y - 1] = 'w';
-        }
-        if (x != H - 1 && S[x + 1][y] != '#') {
-            memo[x + 1][y]++;
-            if (memo[x + 1][y] == 1) {
-                masu.push({{x + 1, y}, c + 1});
-                cnt[x + 1][y] = c + 1;
-            }
-            else if (cnt[x + 1][y] == c && memo[x + 1][y] == 2) memo[x + 1][y] = 1;
-            else S[x + 1][y] = 'w';
-        }
-        if (y != W - 1 && S[x][y + 1] != '#') {
-            memo[x][y + 1]++;
-            if (memo[x][y + 1] == 1) {
-                masu.push({{x, y + 1}, c + 1});
-                cnt[x][y + 1] = c + 1;
-            }
-            else if (cnt[x][y + 1] == c && memo[x][y + 1] == 2) memo[x][y + 1] = 1;
-            else S[x][y + 1] = 'w';
         }
     }
 
