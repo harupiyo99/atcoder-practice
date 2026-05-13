@@ -36,34 +36,38 @@ using mll = map<ll, ll>;
 using msi = map<string, int>;
 
 int N, M;
-vector<vector<vector<pii>>> graph;
+vector<vector<pii>> graph;
+vector<vb> dp;
 
 void solve() {
-    vector<vb> visited(N, vb(1024));
+    dp.assign(N, vb(1024, false));
     queue<pii> route;
     route.push({0, 0});
-    visited[0][0] = true;
+    dp[0][0] = true; 
 
     while (!route.empty()) {
         int x = route.front().first;
         int weight = route.front().second;
         route.pop();
 
-        for (pii i : graph[x][weight]) {
+        for (pii i : graph[x]) {
             int next = i.first;
             int cost = i.second;
 
-            if (!visited[next][cost]) {
-                route.push({next, cost});
-                visited[next][cost] = true;
+            if (!dp[next][cost ^ weight]) {
+                dp[next][cost ^ weight] = true;
+                route.push({next, cost ^ weight});
             }
         }
     }
 
-    int ans = 100000;
-    for (int i = 0;i < 1024;i++) if (visited[N - 1][i]) ans = min(ans, i);
-    if (ans != 100000) cout << ans << "\n";
-    else cout << -1 << "\n";
+    int ans = -1;
+    rep(i, 1024) if (dp[N - 1][i]) {
+        ans = i;
+        break;
+    }
+
+    cout << ans << "\n";
     return;
 }
 
@@ -71,20 +75,18 @@ int main()
 {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-
+    
     cin >> N >> M;
-    graph.resize(N, vector<vector<pii>>(1024));
+    graph.resize(N);
     while (M > 0) {
         M--;
+
         int A, B, W;
         cin >> A >> B >> W;
         A--; B--;
 
-        for (int i = 0;i < 1024;i++) {
-            graph[A][i].push_back({B, i ^ W});
-        }
+        graph[A].push_back({B, W});
     }
-    
     solve();
     return 0;
 }
